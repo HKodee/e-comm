@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from flask_login import LoginManager,UserMixin
@@ -43,13 +43,20 @@ def create_app():
     
     @app.route('/')
     def index():
-        return render_template("index.html")
+        return render_template("home.html")
     
-    @app.route('/')
+    @app.route('/register', methods=["GET", "POST"])
     def register():
+        if request.method == "POST":
+            username = request.form.get("username")
+            email = request.form.get("email")
+            password = request.form.get("password")
+            confirm = request.form.get("confirm_password")
+
+
         return render_template("register.html")
     
-    @app.route('/')
+    @app.route('/login')
     def login():
         return render_template("login.html")
     
