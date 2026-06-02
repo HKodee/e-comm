@@ -1,10 +1,21 @@
 from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
-from flask_login import LoginManager
+from flask_login import LoginManager,UserMixin
 
 db = SQLAlchemy()
 lm = LoginManager()
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usename = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return f"<User{self.usename}>"
+    
+
 
 def create_app():
     app = Flask(__name__)
@@ -24,6 +35,9 @@ def create_app():
             return {"db":"ok"},200
         except Exception as e:
             return {"db":"error", "detail":str(e)}, 500
+        
+    with app.app_context():
+        db.create_all()
 
 
     
