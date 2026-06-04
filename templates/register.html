@@ -89,6 +89,16 @@
     </style>
 </head>
 <body>
+    {% if errors %}
+    <div>
+        <ul>
+            {% for e in errors %}
+            <li>{{e}}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    {% endif %}
 
     <div class="container">
         <h2>Register</h2>
