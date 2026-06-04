@@ -47,14 +47,31 @@ def create_app():
     
     @app.route('/register', methods=["GET", "POST"])
     def register():
+        errors = []
+
         if request.method == "POST":
             username = (request.form.get("username") or "").strip()
             email = (request.form.get("email") or "").strip()
             password = request.form.get("password") or ""
             confirm = request.form.get("confirm_password") or ""
 
+        if not (6 <= len(username) <= 20):
+            errors.append("Username must be between 3 and 80")
 
-        return render_template("register.html")
+        if not re.match(r"[^@\s]+@[^@\s]+\.[^@\s]+$", email):
+            errors.append("Please enter a valid email address")
+
+        if len(password) < 6:
+            errors.append("password need to be at least 6 characters")
+
+        if password != confirm:
+            errors.append("password does not match")
+
+        if not errors:
+            return f"valid input recieved - {email}"        
+
+
+        return render_template("register.html", errors = errors)
     
     @app.route('/login')
     def login():
