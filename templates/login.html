@@ -7,6 +7,16 @@
       Enter your email and password to access your dashboard.
     </p>
 
+    {% if errors %}
+    <div class="mt-4 rouned-xl border border-rose-500/20 bg-rose-500/10 text-rose-300 text-sm">
+      <ul class="list-disc list-inside space-y-1">
+        {% for e in errors %}
+        <li>{{e}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
     <form class="mt-6 space-y-4" method="post" action="/login" novalidate>
       <div>
         <label for="email" class="block text-sm text-slate-400 mb-1"

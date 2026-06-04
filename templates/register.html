@@ -9,7 +9,7 @@
 
     {% if errors %}
     <div class="mt-4 rouned-xl border border-rose-500/20 bg-rose-500/10 text-rose-300 text-sm">
-      <ul>
+      <ul class="list-disc list-inside space-y-1">
         {% for e in errors %}
         <li>{{e}}</li>
         {% endfor %}

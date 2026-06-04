@@ -1,9 +1,9 @@
 from flask import Flask, render_template, url_for, request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
-from flask_login import LoginManager,UserMixin
+from flask_login import LoginManager,UserMixin,login_user
 from sqlalchemy.exc import IntegrityError
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash,check_password_hash
 import re
 
 db = SQLAlchemy()
@@ -46,7 +46,11 @@ def create_app():
     
     @app.route('/')
     def index():
-        return render_template("home.html")
+        return render_template("index.html")
+    
+    @app.route('/dashboard')
+    def dashboard():
+        return render_template("dashboard.html")
     
     @app.route('/register', methods=["GET", "POST"])
     def register():
@@ -89,13 +93,36 @@ def create_app():
 
         return render_template("register.html", errors = errors)
     
-    @app.route('/login')
+    @app.route('/login',  methods=["GET", "POST"])
     def login():
-        return render_template("login.html")
+        errors = []
+
+        if request.method == "POST":
+            email = (request.form.get("email") or "").strip()
+            password = request.form.get("password") or ""
+
+            if not email:
+                errors.append("email is required")
+
+            if not password:
+                errors.append("password is required")
+
+            if not errors:
+                user = User.query.filter_by(email=email).first()
+
+            if not user or not check_password_hash(user.password_hash, password):
+                errors.append("Invalid email or password")
+            else:
+                login_user(user)
+                return redirect(url_for('dashboard'))
+
+            
+        
+        return render_template("login.html", errors=errors)
     
     @lm.user_loader
-    def login_user(user_id):
-        return
+    def load_user(user_id):
+        return User.query.get(int(user_id))
     
     return app
 
