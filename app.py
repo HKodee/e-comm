@@ -1,7 +1,9 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from flask_login import LoginManager,UserMixin
+from sqlalchemy.exc import IntegrityError
+from werkzeug.security import generate_password_hash
 import re
 
 db = SQLAlchemy()
@@ -9,7 +11,7 @@ lm = LoginManager()
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    usename = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
 
@@ -22,7 +24,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] =  'legit-key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///app.db"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 
     db.init_app(app)
@@ -69,6 +71,20 @@ def create_app():
                 errors.append("password does not match")
 
             if not errors:
+
+                try:
+                    pw_hash = generate_password_hash(password)
+                    user = User(username=username, email=email, password_hash=pw_hash)
+                    db.session.add(user)
+                    db.session.commit()
+                    
+                    return redirect(url_for('login'))
+                except IntegrityError:
+                    db.session.rollback()
+                    errors.append("that username or email already exist")
+
+
+                
                 return f"valid input recieved - {email}"    
 
         return render_template("register.html", errors = errors)
