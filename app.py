@@ -48,10 +48,10 @@ def create_app():
     @app.route('/register', methods=["GET", "POST"])
     def register():
         if request.method == "POST":
-            username = request.form.get("username")
-            email = request.form.get("email")
-            password = request.form.get("password")
-            confirm = request.form.get("confirm_password")
+            username = (request.form.get("username") or "").strip()
+            email = (request.form.get("email") or "").strip()
+            password = request.form.get("password") or ""
+            confirm = request.form.get("confirm_password") or ""
 
 
         return render_template("register.html")
