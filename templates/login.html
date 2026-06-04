@@ -1,136 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+{% extends "base.html" %} {% block title %}Login · Flask Auth Lite{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-md">
+  <div class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+    <h1 class="text-2xl font-semibold">Sign in</h1>
+    <p class="mt-1 text-slate-400 text-sm">
+      Enter your email and password to access your dashboard.
+    </p>
 
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+    <form class="mt-6 space-y-4" method="post" action="/login" novalidate>
+      <div>
+        <label for="email" class="block text-sm text-slate-400 mb-1"
+          >Email</label
+        >
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          maxlength="120"
+          class="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand"
+          placeholder="you@example.com"
+        />
+      </div>
 
-        body{
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(to right, #8B0000, #ff4d4d);
-        }
+      <div>
+        <label for="password" class="block text-sm text-slate-400 mb-1"
+          >Password</label
+        >
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minlength="6"
+          class="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand"
+          placeholder="••••••••"
+        />
+      </div>
 
-        .login-container{
-            width: 350px;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
+      <button
+        type="submit"
+        class="w-full mt-2 rounded-lg bg-brand/20 text-brand hover:bg-brand/30 px-4 py-2"
+      >
+        Sign in
+      </button>
+    </form>
 
-        .login-container h2{
-            text-align: center;
-            margin-bottom: 25px;
-            color: #8B0000;
-        }
-
-        .input-box{
-            margin-bottom: 18px;
-        }
-
-        .input-box label{
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .input-box input{
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .input-box input:focus{
-            border-color: #8B0000;
-        }
-
-        .forgot{
-            text-align: right;
-            margin-bottom: 15px;
-        }
-
-        .forgot a{
-            text-decoration: none;
-            color: #8B0000;
-            font-size: 14px;
-        }
-
-        .forgot a:hover{
-            text-decoration: underline;
-        }
-
-        .btn{
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: #8B0000;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .btn:hover{
-            background: #a30000;
-        }
-
-        .register-link{
-            text-align: center;
-            margin-top: 18px;
-        }
-
-        .register-link a{
-            text-decoration: none;
-            color: #8B0000;
-            font-weight: bold;
-        }
-
-        .register-link a:hover{
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="login-container">
-        <h2>Login</h2>
-
-        <form>
-            <div class="input-box">
-                <label>Email</label>
-                <input type="email" placeholder="Enter your email" required>
-            </div>
-
-            <div class="input-box">
-                <label>Password</label>
-                <input type="password" placeholder="Enter your password" required>
-            </div>
-
-            <div class="forgot">
-                <a href="#">Forgot Password?</a>
-            </div>
-
-            <button type="submit" class="btn">Login</button>
-
-            <div class="register-link">
-                Don't have an account?
-                <a href="/register">Register</a>
-            </div>
-        </form>
-    </div>
-
-</body>
-</html>
+    <p class="mt-4 text-sm text-slate-400">
+      Don’t have an account?
+      <a href="/register" class="text-brand hover:underline">Register</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}
