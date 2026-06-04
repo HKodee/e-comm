@@ -56,21 +56,20 @@ def create_app():
             password = request.form.get("password") or ""
             confirm = request.form.get("confirm_password") or ""
 
-        if not (6 <= len(username) <= 20):
-            errors.append("Username must be between 3 and 80")
+            if not (6 <= len(username) <= 20):
+                errors.append("Username must be between 6 and 20 characters")
 
-        if not re.match(r"[^@\s]+@[^@\s]+\.[^@\s]+$", email):
-            errors.append("Please enter a valid email address")
+            if not re.match(r"[^@\s]+@[^@\s]+\.[^@\s]+$", email):
+                errors.append("Please enter a valid email address")
 
-        if len(password) < 6:
-            errors.append("password need to be at least 6 characters")
+            if len(password) < 6:
+                errors.append("password need to be at least 6 characters")
 
-        if password != confirm:
-            errors.append("password does not match")
+            if password != confirm:
+                errors.append("password does not match")
 
-        if not errors:
-            return f"valid input recieved - {email}"        
-
+            if not errors:
+                return f"valid input recieved - {email}"    
 
         return render_template("register.html", errors = errors)
     
