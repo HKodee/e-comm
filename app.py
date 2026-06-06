@@ -83,6 +83,7 @@ def create_app():
                     db.session.add(user)
                     db.session.commit()
                     
+                    flash("Account created successfully!, Please login", "success")
                     return redirect(url_for('login'))
                 except IntegrityError:
                     db.session.rollback()
@@ -115,6 +116,7 @@ def create_app():
                 errors.append("Invalid email or password")
             else:
                 login_user(user)
+                flash(f"Welcome back,{user.username}", "success")
                 return redirect(url_for('dashboard'))
 
             
