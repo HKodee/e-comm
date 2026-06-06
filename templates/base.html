@@ -34,7 +34,17 @@
       
       <div class="space-y-2 mb-4">
         {% for category,meassage in messages %}
-        <div class="rounded px-4 px-3 text-sm">{{messages}}</div>
+        <div class="
+        rounded px-4 px-3 text-sm
+        
+        {% if category == 'success' %}
+        bg-emerald-500/10 text-emerald-300 border border-emerald-400/20
+        {% elif category == 'error' %}
+        bg-rose-500/10 text-rose-300 border border-rose-400/20
+        {% else %}
+        bg-stale-800 text-stale-200 border border-stale-700
+        {}
+        ">{{messages}}</div>
         {% endfor %}
       </div>
       {% endif %} {% endwith %} 
