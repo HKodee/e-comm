@@ -4,6 +4,7 @@ from sqlalchemy import text
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
+from urllib.parse import urlparse
 import re
 
 db = SQLAlchemy()
@@ -43,7 +44,13 @@ def create_app():
         db.create_all()
 
 
+    def _is_safe_local_path(target: str)-> bool:
+        if not target:
+            return False
+        parts = urlparse(target)
+        return parts.scheme == "" and parts.netloc == "" and target.startswith("/")
     
+
     @app.route('/')
     def index():
         return render_template("index.html")
@@ -117,6 +124,15 @@ def create_app():
             else:
                 login_user(user)
                 flash(f"Welcome back,{user.username}", "success")
+
+                #urlparse("https://example.com/page")
+                # scheme="https", metloc='example.com', pah='/page'
+
+                next_url = request.form.get("next") or request.args.get("next") or ""
+                if _is_safe_local_path(next_url):
+                    return redirect(next_url)
+
+
                 return redirect(url_for('dashboard'))
 
             

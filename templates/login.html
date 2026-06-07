@@ -18,6 +18,7 @@
     {% endif %}
 
     <form class="mt-6 space-y-4" method="post" action="/login" novalidate>
+      <input type="hidden" name="text" value="{{request.args.get('next', '')}}">
       <div>
         <label for="email" class="block text-sm text-slate-400 mb-1"
           >Email</label
