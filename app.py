@@ -59,6 +59,11 @@ def create_app():
     @login_required
     def dashboard():
         return render_template("dashboard.html")
+
+    @app.route('/test')
+    @login_required
+    def test():
+        return "TEST PAGE"
     
     @app.route('/register', methods=["GET", "POST"])
     def register():
@@ -123,7 +128,7 @@ def create_app():
                 errors.append("Invalid email or password")
             else:
                 login_user(user)
-                flash(f"Welcome back,{user.username}", "success")
+                flash(f"Welcome back, {user.username}", "success")
 
                 #urlparse("https://example.com/page")
                 # scheme="https", metloc='example.com', pah='/page'
@@ -142,7 +147,7 @@ def create_app():
     @app.route('/logout')
     def logout():
         logout_user()
-        flash("you have been logged out", "success")
+        flash("You have been logged out", "success")
         return redirect(url_for('index'))
 
     @lm.user_loader
