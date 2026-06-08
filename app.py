@@ -28,7 +28,7 @@ def create_app():
     app.config['SECRET_KEY'] =  'legit-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
-    app.config['REMEMBER_COOKIE_DURATION'] == timedelta(days=15)
+    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=15)
 
     db.init_app(app)
     lm.init_app(app)
