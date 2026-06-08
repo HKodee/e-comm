@@ -5,6 +5,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, cur
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
+from datetime import timedelta
 import re
 
 db = SQLAlchemy()
@@ -27,6 +28,7 @@ def create_app():
     app.config['SECRET_KEY'] =  'legit-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
+    app.config['REMEMBER_COOKIE_DURATION'] == timedelta(days=15)
 
     db.init_app(app)
     lm.init_app(app)
@@ -127,7 +129,8 @@ def create_app():
             if not user or not check_password_hash(user.password_hash, password):
                 errors.append("Invalid email or password")
             else:
-                login_user(user)
+                remember_flag = request.form.get("remember") == "1"
+                login_user(user, remember=remember_flag)
                 flash(f"Welcome back, {user.username}", "success")
 
                 #urlparse("https://example.com/page")
