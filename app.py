@@ -126,22 +126,22 @@ def create_app():
             if not errors:
                 user = User.query.filter_by(email=email).first()
 
-            if not user or not check_password_hash(user.password_hash, password):
-                errors.append("Invalid email or password")
-            else:
-                remember_flag = request.form.get("remember") == "1"
-                login_user(user, remember=remember_flag)
-                flash(f"Welcome back, {user.username}", "success")
+                if not user or not check_password_hash(user.password_hash, password):
+                    errors.append("Invalid email or password")
+                else:
+                    remember_flag = request.form.get("remember") == "1"
+                    login_user(user, remember=remember_flag)
+                    flash(f"Welcome back, {user.username}", "success")
 
-                #urlparse("https://example.com/page")
-                # scheme="https", metloc='example.com', pah='/page'
+                    #urlparse("https://example.com/page")
+                    # scheme="https", metloc='example.com', pah='/page'
 
-                next_url = request.form.get("next") or request.args.get("next") or ""
-                if _is_safe_local_path(next_url):
-                    return redirect(next_url)
+                    next_url = request.form.get("next") or request.args.get("next") or ""
+                    if _is_safe_local_path(next_url):
+                        return redirect(next_url)
 
 
-                return redirect(url_for('dashboard'))
+                    return redirect(url_for('dashboard'))
 
             
         
@@ -152,6 +152,17 @@ def create_app():
         logout_user()
         flash("You have been logged out", "success")
         return redirect(url_for('index'))
+    
+    @app.route('/change-password', methods=["GET","POST"])
+    def change_password():
+        errors = []
+        
+        if request.methods == "POST":
+            current_pw = request.forms.get("current_password")
+            new_pw = request.forms.get("new_password")
+            confirm_pw = request.forms.get("confirm_password")
+
+            return render_template(url_for("change_password.html", errors=errors))
 
     @lm.user_loader
     def load_user(user_id):
