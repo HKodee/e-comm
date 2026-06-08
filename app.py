@@ -155,6 +155,7 @@ def create_app():
     
     @app.route('/change-password', methods=["GET","POST"])
     def change_password():
+        #to be completed
         errors = []
         
         if request.methods == "POST":
