@@ -6,9 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
 from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
 import re
-from models import User
+from app.models import User
 
 db = SQLAlchemy()
 lm = LoginManager()
@@ -16,7 +15,11 @@ lm = LoginManager()
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        template_folder="app/templates",
+        static_folder="app/static"
+    )
 
     app.config['SECRET_KEY'] =  'legit-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
