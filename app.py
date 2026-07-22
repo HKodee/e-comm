@@ -6,9 +6,11 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
 from datetime import timedelta
+from flask_sqlalchemy import SQLAlchemy
 import re
+from models import User
 
-
+db = SQLAlchemy()
 lm = LoginManager()
     
 
