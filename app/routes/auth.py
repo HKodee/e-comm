@@ -39,7 +39,7 @@ def register():
                     db.session.commit()
                     
                     flash("Account created successfully!, Please login", "success")
-                    return redirect(url_for('login'))
+                    return redirect(url_for('auth.login'))
                 except IntegrityError:
                     db.session.rollback()
                     errors.append("that username or email already exist")
@@ -89,7 +89,7 @@ def login():
 def logout():
         logout_user()
         flash("You have been logged out", "success")
-        return redirect(url_for('index'))
+        return redirect(url_for('auth.index'))
     
 @auth_bp.route('/change-password', methods=["GET","POST"])
 def change_password():
@@ -101,6 +101,6 @@ def change_password():
             new_pw = request.forms.get("new_password")
             confirm_pw = request.forms.get("confirm_password")
 
-            return render_template(url_for("change_password.html", errors=errors))
+            return render_template(url_for("auth.change_password.html", errors=errors))
 
     

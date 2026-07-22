@@ -26,7 +26,7 @@ def create_app():
 
     db.init_app(app)
     lm.init_app(app)
-    lm.login_view = "login"
+    lm.login_view = "auth.login"
     
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp)
