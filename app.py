@@ -1,16 +1,14 @@
 from flask import Flask, render_template, url_for, request, redirect, flash
-from flask_sqlalchemy import SQLAlchemy
+from app.extensions import db, lm
 from sqlalchemy import text
-from flask_login import LoginManager, login_user, login_required, current_user, logout_user
+from flask_login import login_user, login_required, current_user, logout_user
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
 from datetime import timedelta
 import re
-from app.models import User
+from app.models.User import User
 
-db = SQLAlchemy()
-lm = LoginManager()
     
 
 
