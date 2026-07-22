@@ -66,7 +66,18 @@ def create_app():
     def test():
         return "TEST PAGE"
     
-
+    @app.route("/make-admin/<email>")
+    def make_admin(email):
+        user = User.query.filter_by(email=email).first()
+        
+        if not user:
+            return "User not found"
+        
+        user.role = "admin"
+        db.session.commit()
+        
+        return f"{user.username} is now an admin."
+    
     @lm.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
