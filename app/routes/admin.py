@@ -27,3 +27,15 @@ def users():
         "admin/users.html",
         users=all_users
     )
+    
+@admin_bp.route("/user/<int:user_id>")
+@login_required
+@admin_required
+def edit_user(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    return render_template(
+        "admin/edit_user.html",
+        user=user
+    )
