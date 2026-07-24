@@ -1,7 +1,9 @@
-from app.decorators import admin_required
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
+from app.decorators import admin_required
+from app.extensions import db
 from app.models.User import User
+
 
 admin_bp = Blueprint(
     "admin",
@@ -28,12 +30,19 @@ def users():
         users=all_users
     )
     
-@admin_bp.route("/user/<int:user_id>")
+@admin_bp.route("/user/<int:user_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def edit_user(user_id):
 
     user = User.query.get_or_404(user_id)
+    
+    if request.method == "POST":
+        user.role = request.form.get("role")
+        db.session.commit()
+        flash("User role updated successfully.", "success")
+        
+        return redirect(url_for("admin.users"))
 
     return render_template(
         "admin/edit_user.html",

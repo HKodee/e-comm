@@ -14,6 +14,35 @@ Edit User
 
 <p><strong>Email:</strong> {{ user.email }}</p>
 
-<p><strong>Role:</strong> {{ user.role }}</p>
+<form method="POST">
+
+    <label>Role</label>
+
+    <select name="role">
+
+        <option value="customer"
+            {% if user.role == "customer" %}selected{% endif %}>
+            Customer
+        </option>
+
+        <option value="employee"
+            {% if user.role == "employee" %}selected{% endif %}>
+            Employee
+        </option>
+
+        <option value="admin"
+            {% if user.role == "admin" %}selected{% endif %}>
+            Admin
+        </option>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        Save
+    </button>
+
+</form>
 
 {% endblock %}
