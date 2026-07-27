@@ -1,3 +1,4 @@
+from datetime import date
 from app.extensions import db
 
 
@@ -5,7 +6,10 @@ class Employee(db.Model):
 
     __tablename__ = "employees"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     user_id = db.Column(
         db.Integer,
@@ -37,5 +41,6 @@ class Employee(db.Model):
 
     joining_date = db.Column(
         db.Date,
-        nullable=False
+        nullable=False,
+        default=date.today
     )
