@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
 from datetime import timedelta
 import re
-from app.models.User import User
+from app.models import User,Employee
 
     
 
