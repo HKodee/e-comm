@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from datetime import timedelta
 import re
 from app.models import User, Employee
+from flask_migrate import Migrate
 
     
 
@@ -26,6 +27,7 @@ def create_app():
 
     db.init_app(app)
     lm.init_app(app)
+    migrate = Migrate(app, db)
     lm.login_view = "auth.login"
     
     from app.routes.auth import auth_bp
