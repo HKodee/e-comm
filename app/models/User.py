@@ -12,7 +12,12 @@ class User(UserMixin, db.Model):
         nullable=False,
         default="customer"
     )
+    employee = db.relationship(
+        "Employee",
+        backref="user",
+        uselist=False
+    )
 
     def __repr__(self):
-        return f"<User{self.usename}>"
+        return f"<User{self.username}>"
     

@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from datetime import timedelta
 import re
 from app.models import User, Employee
-from flask_migrate import Migrate
+
 
     
 
@@ -22,12 +22,12 @@ def create_app():
 
     app.config['SECRET_KEY'] =  'legit-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
-    app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=15)
 
     db.init_app(app)
     lm.init_app(app)
-    migrate = Migrate(app, db)
+    
     lm.login_view = "auth.login"
     
     from app.routes.auth import auth_bp
@@ -87,7 +87,8 @@ def create_app():
     return app
 
 
+app = create_app()
+
 
 if __name__ == "__main__":
-    app = create_app()
     app.run(debug=True)
