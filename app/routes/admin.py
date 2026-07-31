@@ -43,6 +43,12 @@ def edit_user(user_id):
         designation = request.form["designation"]
         salary = float(request.form["salary"])
         
+        existing_employee = Employee.query.filter_by(user_id=user_id).first()
+        
+        if existing_employee:
+            flash("This user already has an employee profile.", "danger")
+            return redirect(url_for("admin.add_employee"))
+        
         employee = Employee(
             user_id=user_id,
             employee_code=f"HG{int(user_id):04}",

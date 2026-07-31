@@ -4,17 +4,48 @@
 
 {% block content %}
 
-<h1>Employees</h1>
+<h1>Employee List</h1>
 
 {% if employees %}
 
-<ul>
+<table border="1" cellpadding="8">
+
+    <tr>
+        <th>Code</th>
+        <th>Username</th>
+        <th>Department</th>
+        <th>Designation</th>
+        <th>Salary</th>
+        <th>Status</th>
+    </tr>
+
     {% for employee in employees %}
-        <li>
-            {{ employee.employee_code }}
-        </li>
+
+    <tr>
+
+        <td>{{ employee.employee_code }}</td>
+
+        <td>{{ employee.user.username }}</td>
+
+        <td>{{ employee.department }}</td>
+
+        <td>{{ employee.designation }}</td>
+
+        <td>₹ {{ employee.salary }}</td>
+
+        <td>
+            {% if employee.is_active %}
+                Active
+            {% else %}
+                Inactive
+            {% endif %}
+        </td>
+
+    </tr>
+
     {% endfor %}
-</ul>
+
+</table>
 
 {% else %}
 
