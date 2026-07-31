@@ -89,7 +89,7 @@ def login():
 def logout():
         logout_user()
         flash("You have been logged out", "success")
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('index'))
     
 @auth_bp.route('/change-password', methods=["GET","POST"])
 def change_password():
