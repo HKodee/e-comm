@@ -17,6 +17,7 @@
         <th>Designation</th>
         <th>Salary</th>
         <th>Status</th>
+        <th>Action</th>
     </tr>
 
     {% for employee in employees %}
@@ -39,6 +40,12 @@
             {% else %}
                 Inactive
             {% endif %}
+        </td>
+
+        <td>
+            <a href="{{ url_for('admin.edit_employee', employee_id=employee.id) }}">
+                Edit
+            </a>
         </td>
 
     </tr>
