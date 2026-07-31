@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, request, flash, redirect, url_for, render_template
 from flask_login import login_required
 from app.decorators import admin_required
 from app.extensions import db
@@ -38,11 +38,25 @@ def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     
     if request.method == "POST":
-        user.role = request.form.get("role")
-        db.session.commit()
-        flash("User role updated successfully.", "success")
+        user_id = request.form["user_id"]
+        department = request.form["department"]
+        designation = request.form["designation"]
+        salary = float(request.form["salary"])
         
-        return redirect(url_for("admin.users"))
+        employee = Employee(
+            user_id=user_id,
+            employee_code=f"HG{int(user_id):04}",
+            department=department,
+            designation=designation,
+            salary=salary
+        )
+
+        db.session.add(employee)
+        db.session.commit()
+
+        flash("Employee added successfully!", "success")
+
+        return redirect(url_for("admin.employee_list"))
 
     return render_template(
         "admin/edit_user.html",
@@ -58,4 +72,20 @@ def employee_list():
     return render_template(
         "admin/employee_list.html",
         employees=employees
+    )
+    
+@admin_bp.route("/employees/add", methods=["GET", "POST"])
+@login_required
+@admin_required
+def add_employee():
+
+    users = User.query.filter_by(role="employee").all()
+
+    if request.method == "POST":
+
+        return "POST request received"
+
+    return render_template(
+        "admin/add_employee.html",
+        users=users
     )
