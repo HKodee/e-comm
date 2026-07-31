@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
 from app.decorators import admin_required
 from app.extensions import db
-from app.models.User import User
+from app.models import User,Employee
 
 
 admin_bp = Blueprint(
@@ -47,4 +47,15 @@ def edit_user(user_id):
     return render_template(
         "admin/edit_user.html",
         user=user
+    )
+    
+@admin_bp.route("/employees")
+@login_required
+@admin_required
+def employee_list():
+    employees = Employee.query.all()
+
+    return render_template(
+        "admin/employee_list.html",
+        employees=employees
     )

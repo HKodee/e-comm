@@ -7,7 +7,6 @@ class Employee(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    # Link to User table
     user_id = db.Column(
         db.Integer,
         db.ForeignKey("user.id"),
@@ -50,19 +49,17 @@ class Employee(db.Model):
     )
 
     upi_id = db.Column(
-        db.String(100),
-        nullable=True
+        db.String(100)
     )
 
     emergency_contact = db.Column(
-        db.String(20),
-        nullable=True
+        db.String(20)
     )
 
     is_active = db.Column(
         db.Boolean,
-        nullable=False,
-        default=True
+        default=True,
+        nullable=False
     )
 
     def __repr__(self):
