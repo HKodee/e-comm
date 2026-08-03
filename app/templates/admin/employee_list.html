@@ -43,6 +43,10 @@
         </td>
 
         <td>
+            <a href="{{ url_for('admin.view_employee', employee_id=employee.id) }}">
+                View
+            </a>
+            |
             <a href="{{ url_for('admin.edit_employee', employee_id=employee.id) }}">
                 Edit
             </a>

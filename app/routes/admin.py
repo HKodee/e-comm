@@ -144,3 +144,15 @@ def edit_employee(employee_id):
         "admin/edit_employee.html",
         employee=employee
     )
+    
+@admin_bp.route("/employees/<int:employee_id>")
+@login_required
+@admin_required
+def view_employee(employee_id):
+
+    employee = Employee.query.get_or_404(employee_id)
+
+    return render_template(
+        "admin/view_employee.html",
+        employee=employee
+    )

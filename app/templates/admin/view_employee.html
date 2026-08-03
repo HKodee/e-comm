@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Details{% endblock %}
+
+{% block content %}
+
+<h1>Employee Details</h1>
+
+<table border="1" cellpadding="8">
+
+<tr>
+    <th>Employee Code</th>
+    <td>{{ employee.employee_code }}</td>
+</tr>
+
+<tr>
+    <th>Username</th>
+    <td>{{ employee.user.username }}</td>
+</tr>
+
+<tr>
+    <th>Email</th>
+    <td>{{ employee.user.email }}</td>
+</tr>
+
+<tr>
+    <th>Department</th>
+    <td>{{ employee.department }}</td>
+</tr>
+
+<tr>
+    <th>Designation</th>
+    <td>{{ employee.designation }}</td>
+</tr>
+
+<tr>
+    <th>Salary</th>
+    <td>₹ {{ employee.salary }}</td>
+</tr>
+
+<tr>
+    <th>Joining Date</th>
+    <td>{{ employee.joining_date }}</td>
+</tr>
+
+<tr>
+    <th>Shift</th>
+    <td>{{ employee.shift }}</td>
+</tr>
+
+<tr>
+    <th>Status</th>
+    <td>
+        {% if employee.is_active %}
+            Active
+        {% else %}
+            Inactive
+        {% endif %}
+    </td>
+</tr>
+
+</table>
+
+<br>
+
+<a href="{{ url_for('admin.edit_employee', employee_id=employee.id) }}">
+    Edit Employee
+</a>
+
+|
+<a href="{{ url_for('admin.employee_list') }}">
+    Back
+</a>
+
+{% endblock %}
