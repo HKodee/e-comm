@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash,check_password_hash
 import re
 from app.extensions import db
-from app.models.User import User
+from app.models import User
 
 auth_bp = Blueprint("auth", __name__)
 
